@@ -32,7 +32,6 @@ notifications:
 script:
   - npm run build
 
-
 after_script:
   - cp README.md ./dist/
   - cd ./dist
@@ -40,4 +39,5 @@ after_script:
   - git add .
   - git commit -m "update blog components"
   - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:${P_BRANCH}
-  - rm -rf public
+  - cd ..
+  - rm -rf dist
