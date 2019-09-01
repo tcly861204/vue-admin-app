@@ -39,4 +39,5 @@ after_script:
   - git init
   - git add .
   - git commit -m "update blog components"
-  - echo "build successful"
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:${P_BRANCH}
+  - rm -rf public
