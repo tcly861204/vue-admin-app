@@ -2,7 +2,7 @@
 
 [![Build Status](https://www.travis-ci.org/tcly861204/vue-admin-app.svg?branch=master)](https://www.travis-ci.org/tcly861204/vue-admin-app)
 
-![https://tcly861204.github.io/vue-admin-app](https://tcly861204.github.io/vue-admin-app/)
+[https://tcly861204.github.io/vue-admin-app](https://tcly861204.github.io/vue-admin-app/)
 
 
 ## Project setup
