@@ -1,0 +1,33 @@
+language: node_js
+
+node_js:
+  - 10.16.0
+
+branches:
+  only:
+  - master
+
+env:
+  global:
+
+cache:
+  directories:
+    - node_modules
+
+before_install:
+  - git config --global user.name "${U_NAME}"
+  - git config --global user.email "${U_EMAIL}"
+
+install:
+  - yarn install
+
+
+notifications:
+  email:
+    recipients:
+    - 356671808@qq.com
+    on_success: always
+    on_failure: always
+
+script:
+  - npm run build
