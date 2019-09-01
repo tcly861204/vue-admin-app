@@ -31,3 +31,12 @@ notifications:
 
 script:
   - npm run build
+
+
+after_script:
+  - cp README.md ./dist/
+  - cd ./dist
+  - git init
+  - git add .
+  - git commit -m "update blog components"
+  - echo "build successful"
