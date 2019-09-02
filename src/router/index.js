@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/pages/Home.vue'
+import Layout from '@/layout/layout'
 process.env.NODE_ENV === "development" ? Vue.use(Router) : null;
 export default new Router({
   mode: 'history',
@@ -8,8 +8,22 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'index',
+      component: Layout,
+      redirect: '/home',
+    },
+    {
+      path: '/home',
       name: 'home',
-      component: Home
+      component:Layout,
+      noDropdown:true,
+      children:[
+        {
+          path:'/',
+          name: 'home',
+          component: () => import(/* webpackChunkName: "home" */ '@/pages/home.vue')
+        }
+      ]
     },
     {
       path: '/login',
@@ -19,7 +33,7 @@ export default new Router({
     {
       path: '/about',
       name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ '@/pages/About.vue')
+      component: () => import(/* webpackChunkName: "about" */ '@/pages/about.vue')
     }
   ]
 })
