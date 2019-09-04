@@ -1,6 +1,10 @@
+require('events').EventEmitter.defaultMaxListeners = 0 // 处理爆栈警告
 const TerserPlugin = require('terser-webpack-plugin')  // 用于在生成环境剔除debuger和console
-const CompressionPlugin = require("compression-webpack-plugin"); // gzip压缩,优化http请求,提高加载速度
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin // 代码分析工具
+const CompressionPlugin = require("compression-webpack-plugin") // gzip压缩,优化http请求,提高加载速度
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer') // 代码分析工具
+const SimpleProgressWebpackPlugin = require('simple-progress-webpack-plugin')
+const AutoDllPlugin = require('autodll-webpack-plugin')
+const webpack = require('webpack')
 const path = require('path');
 const resolve = dir => {
   return path.join(__dirname, dir);
@@ -58,7 +62,8 @@ module.exports = {
     //   }
     // }
   },
-   // webpack相关配置
+  parallel: require('os').cpus().length > 1,
+  // webpack相关配置
   chainWebpack: (config) => {
     config.entry.app = ['./src/main.js']
     config.resolve.alias
@@ -88,15 +93,6 @@ module.exports = {
         speed: 4
     })
     .end()
-    if (process.env.NODE_ENV !== "production") {
-      // 项目文件大小分析
-      config.plugin('webpack-bundle-analyzer')
-      .use(new BundleAnalyzerPlugin({
-        openAnalyzer: false,   // 是否打开默认浏览器
-        analyzerPort: 8777
-      }))
-    }
-    // 对vue-cli内部的 webpack 配置进行更细粒度的修改。
     // 添加CDN参数到htmlWebpackPlugin配置中， 详见public/index.html 修改
     config
     .plugin('html')
@@ -141,19 +137,43 @@ module.exports = {
         }
       })
       // 开启gzip压缩
-      config.plugins.push(new CompressionPlugin({
-        algorithm: 'gzip',
-        test: new RegExp("\\.(" + ["js", "css"].join("|") + ")$"), // 匹配文件扩展名
-        // threshold: 10240, // 对超过10k的数据进行压缩
-        threshold: 5120, // 对超过5k的数据进行压缩
-        minRatio: 0.8,
-        cache: true, // 是否需要缓存
-        deleteOriginalAssets: false  // true删除源文件(不建议);false不删除源文件
-      }))
-
+      config.plugins.push(
+        new CompressionPlugin({
+          algorithm: 'gzip',
+          test: new RegExp("\\.(" + ["js", "css"].join("|") + ")$"), // 匹配文件扩展名
+          threshold: 5120, // 对超过5k的数据进行压缩
+          minRatio: 0.8,
+          cache: true, // 是否需要缓存
+          deleteOriginalAssets: false  // true删除源文件(不建议);false不删除源文件
+        }),
+        new BundleAnalyzerPlugin({
+          openAnalyzer: false,
+          analyzerMode: 'static'
+        })
+      )
     } else {
       // 为开发环境修改配置...
-
+      config.plugins.push(
+        new AutoDllPlugin({
+          inject: true, // will inject the DLL bundle to index.html
+          debug: false,
+          filename: 'chunk-[name]s.[hash:8].js',
+          path: './static',
+          entry: {
+            vendor: [
+              'vue',
+              'vue-router',
+              'axios',
+              'element-ui'
+            ]
+          }
+        }),
+        new BundleAnalyzerPlugin({
+          openAnalyzer: false, // 是否打开默认浏览器
+          analyzerPort: 8888
+        }),
+        new SimpleProgressWebpackPlugin()
+      )
     }
   },
    // 第三方插件配置

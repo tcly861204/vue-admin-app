@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit",
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
@@ -25,11 +26,16 @@
     "@vue/cli-plugin-eslint": "^3.11.0",
     "@vue/cli-service": "^3.11.0",
     "@vue/eslint-config-standard": "^4.0.0",
+    "autodll-webpack-plugin": "^0.4.2",
     "babel-eslint": "^10.0.1",
+    "cross-env": "^5.2.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "increase-memory-limit": "^1.0.6",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
+    "os": "^0.1.1",
+    "simple-progress-webpack-plugin": "^1.1.2",
     "terser-webpack-plugin": "^1.4.1",
     "vue-template-compiler": "^2.6.10",
     "webpack-bundle-analyzer": "^3.4.1"
