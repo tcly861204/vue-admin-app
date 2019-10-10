@@ -1,0 +1,43 @@
+language: node_js  # 设置语言
+
+node_js:  # 设置相应版本
+  - 10.16.0
+
+branches: 
+  only:
+  - master
+
+env:
+  global:
+
+cache:
+  directories:
+    - node_modules  # 缓存不经常更改的内容
+
+before_install:
+  - git config --global user.name "${U_NAME}"
+  - git config --global user.email "${U_EMAIL}"
+
+install:
+  - yarn install
+
+
+notifications:
+  email:
+    recipients:
+    - 356671808@qq.com
+    on_success: always
+    on_failure: always
+
+script:
+  - npm run build
+
+after_script:
+  - cp README.md ./dist/
+  - cd ./dist
+  - git init
+  - git add .
+  - git commit -m "update blog components"
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:${P_BRANCH}
+  - cd ..
+  - rm -rf dist
