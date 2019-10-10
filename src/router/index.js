@@ -24,6 +24,11 @@ export default new Router({
           path:'/',
           name: 'home',
           component: () => import(/* webpackChunkName: "home" */ '@/pages/home.vue')
+        },
+        {
+          path:'/home/table',
+          name: 'homeTable',
+          component: () => import(/* webpackChunkName: "table" */ '@/pages/table.vue')
         }
       ]
     },

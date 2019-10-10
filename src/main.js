@@ -5,7 +5,9 @@ import ElementUI from 'element-ui'
 import '@/mockjs'
 // i18n国际化
 import i18n from "@/local"
-process.env.NODE_ENV === "development" && require('element-ui/lib/theme-chalk/index.css')
+if (process.env.NODE_ENV === "development") {
+  require('element-ui/lib/theme-chalk/index.css')
+}
 Vue.use(ElementUI, { size: 'mini'})
 Vue.config.productionTip = false
 import './theme/blue/main.less'
