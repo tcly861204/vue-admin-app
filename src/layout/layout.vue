@@ -1,13 +1,13 @@
 <template>
-<el-container>
+<el-container class="warpper">
   <Header></Header>
-<el-container>
-  <Sidebar></Sidebar>
-  <el-main>
-    <router-view></router-view>
-  </el-main>
-</el-container>
-<el-footer>Footer</el-footer>
+  <el-container class="main">
+    <Sidebar></Sidebar>
+    <el-main>
+      <router-view></router-view>
+    </el-main>
+  </el-container>
+  <el-footer class="footer">Footer</el-footer>
 </el-container>
 </template>
 <script>
@@ -20,10 +20,3 @@ export default {
   }
 }
 </script>
-<style lang="less">
-html, body{
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-</style>

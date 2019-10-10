@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/layout/layout'
-process.env.NODE_ENV === "development" ? Vue.use(Router) : null;
+if (process.env.NODE_ENV === "development") {
+  Vue.use(Router)
+}
 export default new Router({
   mode: 'hash', // history
   base: process.env.BASE_URL,
